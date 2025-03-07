@@ -1,0 +1,74 @@
+@import './base.css';
+
+.mainbg {
+  box-sizing: content-box;
+  background-size: 100% 100%;
+  background-attachment: fixed;
+  width: 100%;
+  /*
+  height: 100%;
+  background-color: #c3a8a8;
+  background-image: linear-gradient(to top left, rgb(241, 184, 255) 0%, rgb(255, 229, 159) 100%);*/
+  display: flex;
+}
+.divider {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  display: block;
+  margin: 0 0 0.5rem 0;
+  border-bottom: 2px solid #777;
+  line-height: 1.5rem;
+}
+
+#app {
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-weight: normal;
+}
+
+a,
+.orange {
+  text-decoration: none;
+  color: hsl(40, 100%, 36%);
+  transition: 0.4s;
+  padding: 3px;
+}
+
+input {
+  border-style: none none solid none;
+  border-width: 0.2rem;
+  border-color: gainsboro;
+  border-radius: 1px;
+  transition: 0.4s;
+  box-shadow: none;
+  width: 100%;
+  outline-width: 0;
+}
+
+@media (hover: hover) {
+  a:hover {
+    background-color: hsl(0, 0%, 91%);
+  }
+  input:hover {
+    border-color: grey;
+  }
+  input:active {
+    outline-style: none;
+    background-color: gainsboro;
+    transition: 0.1s;
+  }
+}
+
+@media (min-width: 1024px) {
+  body {
+    display: flex;
+    place-items: center;
+    left:0;
+  }
+
+  #app {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 0;
+  }
+}
