@@ -1,25 +1,46 @@
 <script>
-import { userLogin, userShow } from '@/api/user';
+import { userShow, userRegister } from '@/api/user';
+import MessageBus from '@/utils/MessageBus';
 export default {
-    data () {
+    data() {
         return {
             inputWidth: 200,
             phoneNumber: '',
             password: '',
             password_confirm: '',
-            admincode: '',
+            admincode: '246801',
+            username: '',
+            email: '',
         }
     },
     methods: {
-        clickme(){
+        clickme() {
             this.$router.push('/login')
         },
-        registerRequest(){
-            userRegister({
-                phoneNumber: this.phoneNumber,
-                password: this.password
-            }).then((data) => {
-                console.log("没写喵")
+        /* 注册请求 */
+        registerRequest() {
+            if (this.password != this.password_confirm) //检查密码码
+            {
+                MessageBus.emit('box',"The passwords entered are not the same.")
+                return
+            }
+            if ( // 如果存在未填写的必需项目
+                this.password == "" ||
+                this.username == "" ||
+                this.phoneNumber == ""
+            ){ // 拒绝提交
+                MessageBus.emit('box',"There are required items that have not been filled in, please check.")
+                return
+            }
+            userRegister(
+                this.username,
+                this.password,
+                this.email,
+                this.phoneNumber,
+            ).then((result) => {
+                MessageBus.emit('box',result)
+            },(err) => {
+                MessageBus.emit('box',err)
             })
         }
     },
@@ -27,42 +48,55 @@ export default {
 </script>
 
 <template>
-    <div class="placeholder">
+    <div class="panel">
         <div class="list">
-            <div class="inputComponent">
+            <div class="input-card">
                 <label for="phoneNumber">Phone Number</label>
                 <p />
-                <input id="phoneNumber" v-model="phoneNumber" type="text" required/>
+                <input id="phoneNumber" v-model="phoneNumber" type="text" required />
             </div>
-            <div class="inputComponent">
+            <div class="input-card">
+                <label for="username">Account Name (User Name)</label>
+                <p />
+                <input id="username" v-model="username" type="text" required />
+            </div>
+            <div class="input-card">
                 <label for="password">Password</label>
                 <p />
-                <input id="password" v-model="password" type="password" required/>
+                <input id="password" v-model="password" type="password" required />
             </div>
-            <div class="inputComponent">
+            <div class="input-card">
                 <label for="passwordc">Input Your Password Again</label>
                 <p />
-                <input id="passwordc" v-model="password_confirm" type="password" required/>
+                <input id="passwordc" v-model="password_confirm" type="password" required />
             </div>
-            <div class="inputComponent">
-                <label for="admincode">verify code</label>
+            <div class="input-card">
+                <label for="email">E-mail (Optional)</label>
                 <p />
-                <input id="admincode" v-model="admincode" type="text" required/>
+                <input id="email" v-model="email" type="text"/>
+            </div>
+            <div class="input-card">
+                <label for="admincode">verify code (DEV: readonly)</label>
+                <p />
+                <input id="admincode" v-model="admincode" type="text" required readonly/>
             </div>
         </div>
         <div class="opera">
-            <button class="register-button" @click="registrRequest" type="submit">Register Now</button>
+            <button class="submit-button" @click="registerRequest" type="submit">Register Now</button>
         </div>
-        Already had an account? <a @click="clickme">Login</a>
+        <h3>
+            Already had an account? 
+            <a @click="clickme">Login</a>
+        </h3>
     </div>
-    
+
 </template>
 
-<style>
+<style scoped>
 label {
     display: inline;
 }
-.register-button,
+
 input,
 label {
     margin: 0.1rem;
@@ -71,57 +105,32 @@ label {
     font-family: sans-serif;
     display: inline-block;
 }
-div.placeholder {
-    display: block;
-    position: relative;
-    padding: 1rem;
-    width: 100%;
-}
-div.inputComponent {
-    text-align: left;
-    padding: 0 1rem 0 1rem;
-    border-style: solid;
-    border-width: 0 0 0 0.2rem;
-    border-color: gainsboro;
-    transition: 0.4s;
-    display: block;
-    width: 80%;
-    margin: 2cap auto;
-}
-.register-button {
-    padding: 0.5rem 2rem;
-    display: inline-block;
-    margin: auto;
-    height: 100%;
-    border: 2px solid #888;
-    border-radius: 4px;
-    transition: 0.4s;
-    text-align: center;
-    background-color: #66b345;
-    color: #fff;
-}
+
+
 .opera {
-    flex-wrap: nowrap;
-    display: block;
+    display: inline;
     width: 80%;
     margin: auto;
     text-align: center;
-    height:max-content;
-}
-.list {
-    padding-right: 0;
-    display: block;
-    width: 80%;
-    margin: auto;
 }
 
-@media (hover:hover){
+.list {
+    margin: 2%;
+    display: block;
+    position: relative;
+    width: 96%;
+}
+
+.tips-text {
+    display: flex;
+    place-items: left;
+    font-size: large;
+    background-color: #fff;
+}
+
+@media (hover:hover) {
     Button:hover {
         border-color: gray;
     }
-}
-
-.inputComponent:hover {
-    border-color: grey;
 }
 </style>

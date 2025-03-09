@@ -30,11 +30,10 @@ export default {
 
 <template>
   <Transition mode="out-in"  name="slide-fade">
-    <div class="inner" v-if="show == 0">
+    <div>
       <LoginComponent @login="(user) => $emit('loginSuccess',user)" />
-        <h1>{{ msg }}</h1>
+      <h1>{{ msg }}</h1>
     </div>
-    
   </Transition>
 </template>
 
@@ -54,17 +53,7 @@ h3 {
   outline-width: 2cap;
 }
 
-.inner h1,
-.inner h3 {
-  text-align: center;
-}
 
-.inner {
-   display: block;
-   position: absolute;
-   width: 100%;
-   left:0
-}
 
 @media (min-width: 1024px) {
   .inner h1,
