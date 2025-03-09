@@ -2,6 +2,7 @@
 
 import axios from "axios";
 import { transParams } from "@/utils/vineUtils";
+import { decodeJwt } from "@/utils/jwtUtils";
 
 axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
 // 创建axios实例
@@ -25,7 +26,20 @@ myAxios.interceptors.request.use(
             url: config.url;
             data:typeof config.data === 'object' ? JSON.stringify(config.data) : config.data;
         }
-        // 更多配置...
+        // 添加token
+        const token = window.localStorage.getItem("token");
+        if (token) {
+            // 检查 Token 是否过期
+            const decodedToken = decodeJwt(token);
+            const currentTimestamp = Math.floor(Date.now() / 1000);
+            console.log(decodedToken)
+            if (decodedToken[1].exp < currentTimestamp) {
+                // Token 过期，刷新 Token
+                // await refreshToken();
+                console.log("过期了:" + (currentTimestamp - decodedToken[1].exp).toString)
+            }
+            config.headers.Authorization = `Bearer ${token}`;
+        }
         return config;
     },
     error => {
@@ -46,5 +60,7 @@ myAxios.interceptors.response.use(
         return Promise.reject(error);
     }
 )
+
+
 
 export default myAxios;

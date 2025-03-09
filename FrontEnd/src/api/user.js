@@ -5,11 +5,11 @@ import myAxios from "@/config/axios";
 //用户登录
 export function userLogin(username, password) {
     return myAxios({
-        url: '/api/user/login',
-        method: 'get',
+        url: '/api/auth/login',
+        method: 'post',
         params: {
-            'username':username,
-            'password':password
+            'username': username,
+            'password': password
         }
     })
 }
@@ -17,8 +17,22 @@ export function userLogin(username, password) {
 //展示所有用户
 export function userShow() {
     return myAxios({
-        url: '/api/user/showall',
+        url: '/api/auth/showall',
         method: 'get',
         params: undefined
+    })
+}
+
+//用户注册
+export function userRegister(username, password, email, phoneNumber) {
+    return myAxios({
+        url: '/api/auth/register',
+        method: 'get',
+        params: {
+            'username': username,
+            'password': password,
+            'email': email,
+            'phone': phoneNumber
+        }
     })
 }

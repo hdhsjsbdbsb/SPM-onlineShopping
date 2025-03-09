@@ -29,7 +29,8 @@ export default {
                 </nav>
                 <span class="placeholder" />
                 <button class="right-state-aligner" @click="goToLogin">Sign in</button>
-                <img class="right-state-aligner" :src="{ UserProfileImg }" />
+                <img alt="user-avatar" class="right-state-aligner" :src="UserProfileImg"/>
+                <!--img alt="user-avatar" class="right-state-aligner" src="/src/assets/unknown_user.svg" /-->
 
             </div>
         </div>
