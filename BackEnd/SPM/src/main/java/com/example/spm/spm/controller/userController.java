@@ -58,6 +58,4 @@ public class userController {
         String token = JwtUtil.genToken(claims);
         return Result.success(token);//将token发送前端作为数据data部分
     }
-
-    
 }
