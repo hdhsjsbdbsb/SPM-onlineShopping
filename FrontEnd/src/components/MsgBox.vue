@@ -2,20 +2,49 @@
 export default {
     data() {
         return {
-            msg: '',
-            type: 1,
-            temp: null,
+            stateCode: '-1',
+            msg: 'Unknown Message',
+            type: 0,
+            tempdata: null,
             visible: false,
+            content: '',
+            callbacks: [],
         }
     },
     methods: {
-        updateMsg(msg, type) {
-            this.msg = msg
-            this.type = type
-            this.visible = true
+        update(result) {
+            // 是对象，则进行完整填充
+            if (typeof (result) == "object") {
+                this.messageText = result.message
+                this.updateMsg(result.code, result.message, 0)
+                this.tempdata = result.data
+                if (result.content)
+                    this.content = result.content
+                //判断是否有回调函数
+                if (result.callbacks)
+                    this.callbacks = result.callbacks
+                return
+            }
+            // 不是对象，则直接填充消息
+            this.updateMsg(0, result, 0)
+            return
         },
-        updateTemp(tempdata) {
-            this.temp = tempdata
+        updateMsg(stateCode, message, controlType) {
+            this.msg = message
+            this.stateCode = stateCode
+            this.type = controlType
+            this.visible = true
+            this.content = ''
+            this.callbacks = []
+            this.tempdata = null
+        },
+        runCallbacks(index, param) {
+            if (this.callbacks)
+                if (index > -1 && index < this.callbacks.length) {
+                    const callback = this.callbacks[index]
+                    callback(param)
+                }
+            this.hideBox(param)
         },
         hideBox(emits) {
             this.$emit('back', emits)
@@ -29,14 +58,18 @@ export default {
 <template>
     <Transition name="c">
         <div v-show="visible" class="bgforbid">
-            <div class="panel">
+            <div class="msg-panel">
                 <span class="row">
                     <!--img :src="imgurl"-->
-                    <a class="divider">{{ msg }}</a>
+                    <a class="divider">{{ '[' + stateCode + '] ' + msg }}</a>
+                    <h3>{{ content }}</h3>
                 </span>
                 <div class="operabtn" v-show="type == 1">
-                    <button @click="hideBox(true)">确认</button>
-                    <button @click="hideBox(false)">取消</button>
+                    <button @click="runCallbacks(1, true)">Confirm</button>
+                    <button @click="runCallbacks(0, false)">Cancel</button>
+                </div>
+                <div class="operabtn" v-show="type == 0">
+                    <button @click="runCallbacks(0, true)">OK</button>
                 </div>
             </div>
         </div>
@@ -59,7 +92,7 @@ export default {
     transition: 0.2s;
 }
 
-.panel {
+.msg-panel {
     border-radius: 4px;
     display: block;
     position: relative;
@@ -77,8 +110,9 @@ export default {
     height: auto;
 }
 
-h1 {
+h3 {
     display: block;
+    word-break: break-all;
 }
 
 img {
@@ -129,7 +163,7 @@ img {
 }
 
 @media (min-width: 1024px) {
-    .panel {
+    .msg-panel {
         width: 50%;
     }
 }

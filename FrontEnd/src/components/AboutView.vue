@@ -3,18 +3,17 @@
 <script>
 import { tempTest } from '@/api/temp';
 import { ref } from "vue";
-import tipBus from '@/utils/tipBus';
+import MessageBus from '@/utils/MessageBus';
 export default {
     setup() {
         let tempData = ref();
         function myTest(param) {
             tempTest(param).then((data) => {
                 this.tempData = data;
-                console.log(data);
                 console.log("测试完成");
             },(err) => {
                 console.log(err);
-                tipBus.emit('tipSet',"无法连接到服务端");
+                MessageBus.emit('box',"无法连接到服务端");
             })
         }
         return {myTest, tempData};
