@@ -6,7 +6,6 @@ import com.example.spm.pojo.User;
 import com.example.spm.service.userService;
 import com.example.spm.utils.JwtUtil;
 import com.example.spm.utils.Md5Util;
-import jakarta.validation.constraints.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -58,4 +57,6 @@ public class userController {
         String token = JwtUtil.genToken(claims);
         return Result.success(token);//将token发送前端作为数据data部分
     }
+
+
 }
