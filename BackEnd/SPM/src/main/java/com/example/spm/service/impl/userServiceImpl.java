@@ -1,6 +1,7 @@
 package com.example.spm.service.impl;
 
 import com.example.spm.mapper.userMapper;
+import com.example.spm.pojo.RegisterDTO;
 import com.example.spm.pojo.User;
 import com.example.spm.service.userService;
 import com.example.spm.utils.Md5Util;
@@ -14,9 +15,14 @@ public class userServiceImpl implements userService {
     private userMapper usermapper;
 
     @Override
-    public void register(User user) {
+    public void register(RegisterDTO user) {
         String md5String = Md5Util.getMD5String(user.getPassword());
         usermapper.add(user.getUsername(), md5String, user.getPhone(), user.getEmail());
+    }
+
+    @Override
+    public void update(User user) {
+        usermapper.update(user.getId(), user.getNickname(), user.getUserPic(), user.getPhone(), user.getEmail());
     }
 
     @Override

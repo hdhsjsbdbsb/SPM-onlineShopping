@@ -1,11 +1,13 @@
 package com.example.spm.controller;
 
 import com.example.spm.pojo.LoginDTO;
+import com.example.spm.pojo.RegisterDTO;
 import com.example.spm.pojo.Result;
 import com.example.spm.pojo.User;
 import com.example.spm.service.userService;
 import com.example.spm.utils.JwtUtil;
 import com.example.spm.utils.Md5Util;
+import com.example.spm.utils.ThreadLocalUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +27,7 @@ public class userController {
      * 注册账号，要求四个参数：用户名、密码、手机号和邮箱
      * */
     @PostMapping("/register")
-    public Result register(@RequestBody @Validated User user) {
+    public Result register(@RequestBody @Validated RegisterDTO user) {
         //检验数据库中是否存在相同的用户
         User u = userservice.findByUsername(user.getUsername());
         if(u != null) {
@@ -58,5 +60,15 @@ public class userController {
         return Result.success(token);//将token发送前端作为数据data部分
     }
 
+    @PostMapping("/update")
+    public Result updateUserInfo(@RequestBody @Validated User user) {
+        Map<String, Object> map = ThreadLocalUtil.get();
+        String username = (String) map.get("username");
 
+        User u = userservice.findByUsername(username);
+        Integer id = u.getId();
+        user.setId(id);
+        userservice.update(user);
+        return Result.success();
+    }
 }

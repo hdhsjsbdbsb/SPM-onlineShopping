@@ -1,10 +1,7 @@
 package com.example.spm.mapper;
 
 import com.example.spm.pojo.User;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 @Mapper
 public interface userMapper {
@@ -15,4 +12,7 @@ public interface userMapper {
 
     @Select("select * from user where username=#{username}")
     public User findByUsername(String username);
+
+    @Update("update user set nickname=#{nickname}, avatar=#{userpic}, phone=#{phone}, email=#{email} where id=#{id}")
+    void update(@Param("id") int id, @Param("nickname") String nickname, @Param("userpic") String userpic, @Param("phone") String phone, String email);
 }
