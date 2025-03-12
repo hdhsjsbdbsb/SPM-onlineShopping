@@ -58,6 +58,16 @@ public class addressController {
     }
 
     /*
+    * 获取省、市、区等地理数据
+    * */
+    @GetMapping("/regions")
+    public Result getRegions(){
+      /*  List<Map<String, Object>> regions = addressService.getRegions();*/
+        return Result.success(regions);
+    }
+
+
+    /*
     * 获取单个具体的地址*/
     @GetMapping("/{id}")
     public Result getAddress(@PathVariable("id") Integer id) {
@@ -89,4 +99,15 @@ public class addressController {
         return Result.success();
     }
 
+    /*
+    * 通过地址id删除地址*/
+    @PostMapping("/delete")
+    public Result deleteAddress(@RequestBody @Validated addressRequest address) {
+        Integer id = address.getId();
+        if (addressService.findById(id) == null) {
+            return Result.error("id不存在！");
+        }
+        addressService.deleteAddress(id);
+        return Result.success();
+    }
 }

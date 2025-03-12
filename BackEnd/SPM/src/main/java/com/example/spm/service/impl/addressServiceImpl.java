@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class addressServiceImpl implements addressService {
@@ -47,5 +48,15 @@ public class addressServiceImpl implements addressService {
     public Integer findDefault(Integer userId) {
         Integer id = addressMapper.findDefault(userId).getId();
         return id;
+    }
+
+    @Override
+    public void deleteAddress(Integer id) {
+        addressMapper.deleteAddress(id);
+    }
+
+    @Override
+    public List<Map<String, Object>> getRegions() {
+        return addressMapper.getRegions();
     }
 }
