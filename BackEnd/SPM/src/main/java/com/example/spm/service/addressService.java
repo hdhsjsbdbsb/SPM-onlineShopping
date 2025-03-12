@@ -4,6 +4,7 @@ import com.example.spm.pojo.Address;
 import com.example.spm.pojo.addressRequest;
 
 import java.util.List;
+import java.util.Map;
 
 public interface addressService {
 
@@ -22,4 +23,10 @@ public interface addressService {
 
 //    查找默认地址
     Integer findDefault(Integer userId);
+
+//    删除id对应的地址
+    void deleteAddress(Integer id);
+
+//    调用高德地图api获得相关地理信息
+    List<Map<String, Object>> getRegions();
 }

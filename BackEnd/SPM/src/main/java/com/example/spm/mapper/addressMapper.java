@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotEmpty;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface addressMapper {
@@ -47,4 +48,9 @@ public interface addressMapper {
 
     @Select("select * from address where user_id =#{userId} and is_default = 1")
     Address findDefault(Integer userId);
+
+    @Delete("delete from address where id = #{id} ")
+    void deleteAddress(Integer id);
+
+    List<Map<String, Object>> getRegions();
 }
