@@ -3,6 +3,7 @@ package com.example.spm.controller;
 import com.example.spm.service.productService;
 import com.example.spm.pojo.Result;
 import com.example.spm.pojo.Product;
+import com.example.spm.utils.ThreadLocalUtil;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
