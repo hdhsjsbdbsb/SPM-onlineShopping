@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -46,4 +47,41 @@ public class ShoppingCartController {
             return Result.error(result.toString());
         }
     }
+    @GetMapping("/shopping-cart/get-cart-items")
+    public Result getCartItems() {
+        try {
+            Map<String, Object> map = ThreadLocalUtil.get();
+            System.out.println("    ThreadLocalUtil.get() = " + map);
+            Integer userId = (Integer) map.get("id"); // 修改为小写的"id"
+            System.out.println("    userId = "    + userId);
+            List<ShoppingCartItem> cartItems = shoppingCartService.getCartItems(userId);
+            System.out.println("    cartItems = " + cartItems);
+            if (cartItems == null) {
+                return Result.success(null);
+            }
+            return Result.success(cartItems);
+        } catch (Exception e) {
+
+            return Result.error(e.getMessage());
+        }
+    }
+    @PostMapping("/shopping-cart/update-cart-item")
+    public Result updateCartItem(@RequestBody ShoppingCartItem shoppingCartItem) {
+        Map<String, Object> map = ThreadLocalUtil.get();
+        System.out.println("    ThreadLocalUtil.get() = " + map);
+        Integer userId = (Integer) map.get("id");
+
+        Map<String, Object> result = new HashMap<>();
+        int rowsAffected = shoppingCartService.updateCartItem(shoppingCartItem, userId);
+        if (rowsAffected > 0) {
+            result.put("code", 0);
+            result.put("message", "成功更新购物车商品");
+            return Result.success(result);
+        } else {
+            result.put("code", 1);
+            result.put("message", "更新购物车商品失败");
+            return Result.error(result.toString());
+        }
+    }
+
 }

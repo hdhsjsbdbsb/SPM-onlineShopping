@@ -1,5 +1,6 @@
 package com.example.spm.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.util.Date;
@@ -17,6 +18,8 @@ public class ShoppingCartItem {
     private int quantity;
     // 产品规格，用于记录用户选择的产品规格信息
     private String spec;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+
     // 创建时间，记录购物车项的创建时间
     private Date createdAt;
 }
