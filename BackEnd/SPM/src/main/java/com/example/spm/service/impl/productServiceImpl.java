@@ -18,6 +18,11 @@ public class productServiceImpl implements productService {
     }
 
     @Override
+    public Product getProductStockById(Integer productId) {
+        return productmapper.getProductStockById(productId);
+    }
+
+    @Override
     public List<Product> getProducts(String keyword, int page, int limit) {
         return  productmapper.getProducts(keyword, page, limit);
     }

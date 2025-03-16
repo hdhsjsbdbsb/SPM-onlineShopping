@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -44,5 +45,20 @@ public class productController {
     public Result getProductById(@PathVariable Integer id) {
         System.out.println(productservice.getProductById(id));
         return Result.success(productservice.getProductById(id));
+    }
+    @GetMapping("/stock/{productId}")
+    public Result getProductStock(@PathVariable Integer productId) {
+
+        Product product = productservice.getProductStockById(productId);
+        if (product != null) {
+
+            Map<String, Object> data = new HashMap<>();
+            data.put("stock", product.getStock());
+
+            return Result.success(data);
+        } else {
+
+            return  Result.error("未找到该商品");
+        }
     }
 }

@@ -15,4 +15,6 @@ public interface productMapper {
     List<Product> getProducts(String keyword, int page, int limit);
     @Select("SELECT COUNT(*) FROM product WHERE name LIKE CONCAT('%', #{keyword}, '%')")
     long getTotalCount(String keyword);
+    @Select("SELECT * FROM product WHERE id = #{productId}")
+    Product getProductStockById(Integer productId);
 }
