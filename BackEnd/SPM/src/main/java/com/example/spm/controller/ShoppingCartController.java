@@ -12,13 +12,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@RestController
+@RestController()
+@RequestMapping("cart")
 public class ShoppingCartController {
 
     @Autowired
     private ShoppingCartService shoppingCartService;
 
-    @GetMapping("/shopping-cart/total-quantity")
+    @GetMapping("quantity")
     public Result getTotalQuantity() {
         Map<String, Object> map = ThreadLocalUtil.get();
         System.out.println("    ThreadLocalUtil.get() = " + map);
@@ -27,7 +28,7 @@ public class ShoppingCartController {
         Integer totalQuantity = shoppingCartService.getTotalQuantity(userId);
         return Result.success(totalQuantity!= null? totalQuantity : 0);
     }
-    @PostMapping("/shopping-cart/add-product")
+    @PostMapping()
     public Result addProductToCart(@RequestBody ShoppingCartItem shoppingCartItem) {
         Map<String, Object> map = ThreadLocalUtil.get();
         System.out.println("    ThreadLocalUtil.get() = " + map);
@@ -47,7 +48,7 @@ public class ShoppingCartController {
             return Result.error(result.toString());
         }
     }
-    @GetMapping("/shopping-cart/get-cart-items")
+    @GetMapping()
     public Result getCartItems() {
         try {
             Map<String, Object> map = ThreadLocalUtil.get();
@@ -65,7 +66,7 @@ public class ShoppingCartController {
             return Result.error(e.getMessage());
         }
     }
-    @PostMapping("/shopping-cart/update-cart-item")
+    @PostMapping("update")
     public Result updateCartItem(@RequestBody ShoppingCartItem shoppingCartItem) {
         Map<String, Object> map = ThreadLocalUtil.get();
         System.out.println("    ThreadLocalUtil.get() = " + map);
