@@ -1,8 +1,8 @@
 <template>
     <el-dropdown trigger="click" @command="handleCategoryClick">
-      <span class="dropdown-trigger">
-        Categories <el-icon class="el-icon--right"><arrow-down /></el-icon>
-      </span>
+      <a class="dropdown-trigger">
+        Categories <el-icon><arrow-down /></el-icon>
+      </a>
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item command="/category1">种类 1</el-dropdown-item>
@@ -36,23 +36,22 @@
   <style scoped>
   /* 单独为下拉选项组件设置样式 */
 .dropdown-trigger {
-  color: white;
-  cursor: pointer;
-  display: flex;
   align-items: center;
   font-size:22px;
 }
 
-.el-dropdown-menu {
-  background-color: rgba(0, 0, 0, 0.8);
+el-dropdown-menu {
+  background-color: rgba(255, 255, 255, 0.8);
   border: none;
+  box-shadow: 5px 5px #00000040;
 }
 
-.el-dropdown-item {
-  color: white;
+el-dropdown-item {
+  color: rgb(70, 70, 70);
 }
 
-.el-dropdown-item:hover {
-  background-color: rgba(0, 0, 0, 0.7);
+el-dropdown-item:hover {
+  background-color: rgba(0, 0, 0, 0.24);
 }
+
   </style>

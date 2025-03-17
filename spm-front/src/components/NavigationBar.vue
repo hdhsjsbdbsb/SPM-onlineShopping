@@ -2,6 +2,9 @@
 
 <script>
 import { RouterLink } from 'vue-router'
+import PopupMenu from './PopupMenu.vue';
+import MessageBus from '@/utils/MessageBus';
+import CategoryDropdown from './CategoryDropdown.vue';
 
 export default {
     data() {
@@ -10,10 +13,46 @@ export default {
             searchContent: ''
         }
     },
+    components: {
+        PopupMenu,
+        CategoryDropdown
+    },
     methods: {
         goToLogin() {
             this.$router.push('/login')
         },
+        goToHome() {
+            this.$router.push('/')
+        },
+        handleMenuClick(option) {
+            //console.log(`点击了${option}`);
+            this.$router.push(option)
+            this.$refs.popupMenu.closeMenu()
+        },
+        handleLogout() { //退出账户处理流程，生成提示窗口
+            this.$refs.popupMenu.closeMenu()
+            var data = {
+                code: "Info",
+                type: 1,
+                message: "提示",
+                content: "Do you want to logout? You can login later.",
+                callbacks: [
+                    () => {},
+                    this.handleLogoutConfirm
+                ]
+            }
+            MessageBus.emit("box", data)
+        },
+        handleLogoutConfirm() { // 确认退出账户
+            localStorage.setItem("token", "")
+            localStorage.setItem("user", "")
+            setTimeout(() => {
+                MessageBus.emit("box", "You're already logout.")
+            },200)
+        },
+        popup() { // 弹出菜单
+            this.$refs.popupMenu.toggleMenu()
+        }
     }
 }
 </script>
@@ -22,19 +61,32 @@ export default {
     <Transition name="pages">
         <div class="header">
             <div class="mid-container">
-                <img alt="logo" class="left-logo-aligner" src="/img/icons/icon.svg" />
-                <div id="title" class="left-logo-aligner">SPMoS</div>
+                <img alt="logo" class="left-logo-aligner" @click="goToHome" src="/img/icons/icon.svg" />
+                <div id="title" class="left-logo-aligner" @click="goToHome">SPMoS</div>
                 <nav class="left-logo-aligner">
-                    <RouterLink to="/">Home</RouterLink>
-                    <RouterLink to="/about">Categrey</RouterLink>
+                    <CategoryDropdown />
+                    <RouterLink to="/Shop">Shops</RouterLink>
                 </nav>
                 <span class="placeholder" />
-                <button class="right-state-aligner" @click="goToLogin">Sign in</button>
-                <img alt="user-avatar" class="right-state-aligner" :src="userProfileImg"/>
+                <div class="right-state-aligner">
+                    <button @click="goToLogin" class="right-state-aligner">Sign in</button>
+                    <popup-menu ref="popupMenu">
+                        <template #trigger>
+                            <img alt="user-avatar" :src="userProfileImg" class="right-state-aligner" ref="userImg" />
+                        </template>
+                        <div>
+                            <a class="popup-menu-item" @click="handleMenuClick('/Myaccount')">My Account</a>
+                            <a class="popup-menu-item" @click="handleMenuClick('/UserMseeage')">Messages</a>
+                            <a class="popup-menu-item" @click="handleMenuClick('/Myorders')">My Orders</a>
+                            <a class="popup-menu-item" @click="handleLogout">Logout</a>
+                        </div>
+                    </popup-menu>
+                </div>
                 <div class="right-state-aligner">
                     <input id="search" v-model="searchContent" placeholder="Search..." class="search-input">
                     <img src="/img/icons/search.svg" class="search-text" v-show="searchContent">
                 </div>
+
             </div>
         </div>
     </Transition>
@@ -53,7 +105,6 @@ export default {
     font: 1.5em sans-serif;
     background-color: rgb(249, 249, 249);
     z-index: 100;
-    overflow: hidden;
 }
 
 /* 标题栏居中容器 */
@@ -86,6 +137,7 @@ export default {
     text-align: center;
     height: 2rem;
     margin-left: 1rem;
+    cursor: pointer;
 }
 
 .placeholder {
@@ -100,6 +152,7 @@ button {
     font: 1rem sans-serif;
     transition: 0.2s;
 }
+
 button:hover {
     background-color: #cfcfcf;
 }
@@ -128,6 +181,15 @@ button:hover {
     /*border: 1px solid #8a8a8a;*/
 }
 
+
+/* 弹出菜单项目 */
+.popup-menu-item {
+    padding: 0.2rem;
+    margin: 0;
+    display: inline-block;
+    white-space: nowrap;
+}
+
 /* 动画 */
 .pages-enter-active,
 .pages-leave-active {
@@ -141,5 +203,9 @@ button:hover {
 
 .pages-leave-to {
     opacity: 0;
+}
+
+img:hover {
+    border-radius: 8px;
 }
 </style>

@@ -10,6 +10,7 @@
   width: 100%;
   display: flex;
 }
+
 .divider {
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   display: block;
@@ -33,12 +34,8 @@ a,
   padding: 3px;
 }
 
-
-
-@media (hover: hover) {
-  a:hover {
-    background-color: hsl(0, 0%, 91%);
-  }
+a:hover {
+  background-color: hsl(0, 0%, 91%);
 }
 
 
@@ -54,11 +51,6 @@ a,
   background-color: rgba(255, 255, 255, 0.5);
   box-shadow: 0px 10px 10px #888888;
   width: 100%;
-    flex-direction: column;
-    place-items: center center;
+  flex-direction: column;
+  place-items: center center;
 }
-/* @media (max-width:1024px) {
-  .panel {
-    
-  }
-} */

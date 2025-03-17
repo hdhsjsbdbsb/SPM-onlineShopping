@@ -16,7 +16,7 @@ export default {
             // 是对象，则进行完整填充
             if (typeof (result) == "object") {
                 this.messageText = result.message
-                this.updateMsg(result.code, result.message, 0)
+                this.updateMsg(result.code, result.message, result.type)
                 this.tempdata = result.data
                 if (result.content)
                     this.content = result.content
