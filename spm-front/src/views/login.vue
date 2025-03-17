@@ -13,21 +13,22 @@
         <div class="form-item">
           <div class="input-wrapper">
           <el-icon class="input-icon"><User /></el-icon>
-          <input type="text" v-model="loginForm.name" placeholder="please input username">
+          <input class="input-word" type="text" v-model="loginForm.name" placeholder="please input username">
           </div>
         </div>
         <div class="form-item">
           <div class="input-wrapper">
           <el-icon class="input-icon"><Lock /></el-icon>
-          <input type="password" v-model="loginForm.pwd" placeholder="please input password">
+          <input class="input-word" type="password" v-model="loginForm.pwd" placeholder="please input password">
          </div>
         </div>
         <div class="form-item">
           <button class="submit-button" @click="handleLogin">LOGIN</button>
         </div>
         <div class="form-footer">
+            <span class="text-account">No account yet?</span>
           <router-link to="/signup" class="signup-link">
-            create an account
+            register now!
           </router-link>
         </div>
       </div>
@@ -37,7 +38,7 @@
 
 <script>
 import {  User,Lock} from '@element-plus/icons-vue'
-  import axios from 'axios'
+import axios from 'axios'
 export default {
   name: 'login',
   components:{
@@ -53,14 +54,19 @@ export default {
     }
   },
   methods: {
-    async handleLogin() {
-      try {
-        const response = await axios.post('/auth/login', this.loginForm)
-        console.log('登录成功', response.data)
-        // 处理登录成功后的逻辑
-      } catch (error) {
-        console.error('登录失败', error)
-      }
+    // async handleLogin() {
+    //   try {
+    //     const response = await axios.post('/auth/login', this.loginForm)
+    //     console.log('登录成功', response.data)
+    //     // 处理登录成功后的逻辑
+    //     this.$router.push('/home')//首页路径为home
+    //   } catch (error) {
+    //     console.error('登录失败', error)
+    //   }
+    // }  验证，以下是直接跳转测试
+    handleLogin(){
+      //this.$router.push('/home');
+      this.$router.push('/homenew');
     }
   }
 }
@@ -124,6 +130,7 @@ export default {
   transform: translate(-50%, -50%);
   padding: 20px;
   z-index: 1;
+  opacity: 0.9;
 }
 
 .login-title {
@@ -152,6 +159,9 @@ export default {
   z-index: 1;
 }
 
+.input-word{
+  opacity: 0.5;
+}
 .form-item {
   margin-bottom: 20px;
   display: flex;
@@ -200,6 +210,10 @@ export default {
 .form-footer {
   text-align: center;
   margin-top: 15px;
+}
+
+.text-account{
+ opacity: 0.5;
 }
 
 .signup-link {
