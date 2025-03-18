@@ -12,7 +12,7 @@ import UserMessage from '@/views/UserMessage.vue'
 const routes = [
   {
     path: '/',
-    redirect: '/login'
+    redirect: '/homenew'
   },
   {
     path: '/login',

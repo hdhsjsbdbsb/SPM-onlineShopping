@@ -13,7 +13,7 @@
                 <div class="nav">
                     <ul>
                         <li>
-                            <CategoryDropdown/>
+                            
                             <!-- 种类 -->
                         </li>
                         <li>
@@ -119,6 +119,7 @@ const selectKeyword = (keyword) => {
 <style scoped>
 .body{
     background-color:#fdeff3; 
+    top: 3cap;
 }
 .wrapper{
     margin:0 auto;
