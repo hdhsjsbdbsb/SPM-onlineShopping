@@ -14,7 +14,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema spm
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `spm` DEFAULT CHARACTER SET latin1 ;
+CREATE SCHEMA IF NOT EXISTS `spm` DEFAULT CHARACTER SET utf8 ;
 USE `spm` ;
 
 -- -----------------------------------------------------
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `spm`.`user` (
                                             PRIMARY KEY (`id`))
     ENGINE = InnoDB
     AUTO_INCREMENT = 5
-    DEFAULT CHARACTER SET = latin1
+    DEFAULT CHARACTER SET = utf8
     COMMENT = '用户';
 
 CREATE UNIQUE INDEX `username` ON `spm`.`user` (`username` ASC) VISIBLE;
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `spm`.`address` (
                                                    FOREIGN KEY (`user_id`)
                                                        REFERENCES `spm`.`user` (`id`))
     ENGINE = InnoDB
-    DEFAULT CHARACTER SET = latin1
+    DEFAULT CHARACTER SET = utf8
     COMMENT = '用户收货地址';
 
 CREATE INDEX `user_id` ON `spm`.`address` (`user_id` ASC) VISIBLE;
@@ -81,7 +81,7 @@ CREATE TABLE IF NOT EXISTS `spm`.`product_category` (
                                                         `created_at` DATETIME NOT NULL,
                                                         PRIMARY KEY (`id`))
     ENGINE = InnoDB
-    DEFAULT CHARACTER SET = latin1
+    DEFAULT CHARACTER SET = utf8
     COMMENT = '商品分类';
 
 
@@ -106,6 +106,7 @@ CREATE TABLE IF NOT EXISTS `spm`.`store` (
                                                      ON DELETE NO ACTION
                                                      ON UPDATE NO ACTION)
     ENGINE = InnoDB
+    DEFAULT CHARACTER SET = utf8
     COMMENT = '商店表';
 
 CREATE INDEX `fk_stores_user1_idx` ON `spm`.`store` (`user_id` ASC) VISIBLE;
@@ -139,7 +140,7 @@ CREATE TABLE IF NOT EXISTS `spm`.`product` (
                                                        ON DELETE NO ACTION
                                                        ON UPDATE NO ACTION)
     ENGINE = InnoDB
-    DEFAULT CHARACTER SET = latin1
+    DEFAULT CHARACTER SET = utf8
     COMMENT = '商品';
 
 CREATE INDEX `category_id_idx` ON `spm`.`product` (`category_id` ASC) VISIBLE;
@@ -167,7 +168,7 @@ CREATE TABLE IF NOT EXISTS `spm`.`cart` (
                                                 FOREIGN KEY (`product_id`)
                                                     REFERENCES `spm`.`product` (`id`))
     ENGINE = InnoDB
-    DEFAULT CHARACTER SET = latin1
+    DEFAULT CHARACTER SET = utf8
     COMMENT = '用户购物车';
 
 CREATE INDEX `user_id` ON `spm`.`cart` (`user_id` ASC) VISIBLE;
@@ -196,7 +197,7 @@ CREATE TABLE IF NOT EXISTS `spm`.`product_comment` (
                                                            FOREIGN KEY (`product_id`)
                                                                REFERENCES `spm`.`product` (`id`))
     ENGINE = InnoDB
-    DEFAULT CHARACTER SET = latin1
+    DEFAULT CHARACTER SET = utf8
     COMMENT = '商品评价';
 
 CREATE INDEX `user_id` ON `spm`.`product_comment` (`user_id` ASC) VISIBLE;
@@ -221,7 +222,7 @@ CREATE TABLE IF NOT EXISTS `spm`.`comment_like` (
                                                         FOREIGN KEY (`user_id`)
                                                             REFERENCES `spm`.`user` (`id`))
     ENGINE = InnoDB
-    DEFAULT CHARACTER SET = latin1
+    DEFAULT CHARACTER SET = utf8
     COMMENT = '用户的评论联系（方便查询）';
 
 CREATE INDEX `comment_id` ON `spm`.`comment_like` (`comment_id` ASC) VISIBLE;
@@ -244,7 +245,7 @@ CREATE TABLE IF NOT EXISTS `spm`.`coupon` (
                                               `status` INT NOT NULL COMMENT '优惠券状态，未使用，已使用，已过期',
                                               PRIMARY KEY (`id`))
     ENGINE = InnoDB
-    DEFAULT CHARACTER SET = latin1
+    DEFAULT CHARACTER SET = utf8
     COMMENT = '优惠券';
 
 
@@ -270,7 +271,7 @@ CREATE TABLE IF NOT EXISTS `spm`.`order` (
                                                  FOREIGN KEY (`address_id`)
                                                      REFERENCES `spm`.`address` (`id`))
     ENGINE = InnoDB
-    DEFAULT CHARACTER SET = latin1
+    DEFAULT CHARACTER SET = utf8
     COMMENT = '订单';
 
 CREATE INDEX `user_id` ON `spm`.`order` (`user_id` ASC) VISIBLE;
@@ -300,7 +301,7 @@ CREATE TABLE IF NOT EXISTS `spm`.`order_logistics` (
                                                                ON DELETE NO ACTION
                                                                ON UPDATE NO ACTION)
     ENGINE = InnoDB
-    DEFAULT CHARACTER SET = latin1
+    DEFAULT CHARACTER SET = utf8
     COMMENT = '订单中各个商品的物流';
 
 CREATE INDEX `order_id` ON `spm`.`order_logistics` (`order_id` ASC) INVISIBLE;
@@ -327,7 +328,7 @@ CREATE TABLE IF NOT EXISTS `spm`.`notification` (
                                                             ON DELETE NO ACTION
                                                             ON UPDATE NO ACTION)
     ENGINE = InnoDB
-    DEFAULT CHARACTER SET = latin1
+    DEFAULT CHARACTER SET = utf8
     COMMENT = '消息队列';
 
 CREATE INDEX `fk_notification_user1_idx` ON `spm`.`notification` (`user_id` ASC) VISIBLE;
@@ -352,7 +353,7 @@ CREATE TABLE IF NOT EXISTS `spm`.`order_item` (
                                                       FOREIGN KEY (`product_id`)
                                                           REFERENCES `spm`.`product` (`id`))
     ENGINE = InnoDB
-    DEFAULT CHARACTER SET = latin1
+    DEFAULT CHARACTER SET = utf8
     COMMENT = '订单和商品的连接';
 
 CREATE INDEX `order_id` ON `spm`.`order_item` (`order_id` ASC) VISIBLE;
@@ -377,7 +378,7 @@ CREATE TABLE IF NOT EXISTS `spm`.`user_favorites` (
                                                           FOREIGN KEY (`product_id`)
                                                               REFERENCES `spm`.`product` (`id`))
     ENGINE = InnoDB
-    DEFAULT CHARACTER SET = latin1
+    DEFAULT CHARACTER SET = utf8
     COMMENT = '用户收藏的商品（关联表）';
 
 CREATE INDEX `user_id` ON `spm`.`user_favorites` (`user_id` ASC) VISIBLE;
@@ -400,7 +401,7 @@ CREATE TABLE IF NOT EXISTS `spm`.`upload_record` (
                                                          FOREIGN KEY (`user_id`)
                                                              REFERENCES `spm`.`user` (`id`))
     ENGINE = InnoDB
-    DEFAULT CHARACTER SET = latin1
+    DEFAULT CHARACTER SET = utf8
     COMMENT = '上传记录';
 
 CREATE INDEX `user_id` ON `spm`.`upload_record` (`user_id` ASC) VISIBLE;
@@ -423,7 +424,7 @@ CREATE TABLE IF NOT EXISTS `spm`.`user_coupon` (
                                                        FOREIGN KEY (`coupon_id`)
                                                            REFERENCES `spm`.`coupon` (`id`))
     ENGINE = InnoDB
-    DEFAULT CHARACTER SET = latin1
+    DEFAULT CHARACTER SET = utf8
     COMMENT = '用户和优惠券的关联表';
 
 CREATE INDEX `user_id` ON `spm`.`user_coupon` (`user_id` ASC) VISIBLE;
@@ -439,8 +440,8 @@ DROP TABLE IF EXISTS `spm`.`user_feedback` ;
 CREATE TABLE IF NOT EXISTS `spm`.`user_feedback` (
                                                      `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '反馈id',
                                                      `user_id` INT(11) NOT NULL COMMENT '用户id',
-                                                     `content` TEXT CHARACTER SET 'latin1' NOT NULL COMMENT '反馈内容',
-                                                     `contact` VARCHAR(100) CHARACTER SET 'latin1' NULL DEFAULT NULL COMMENT '联系方式',
+                                                     `content` TEXT CHARACTER SET 'utf8' NOT NULL COMMENT '反馈内容',
+                                                     `contact` VARCHAR(100) CHARACTER SET 'utf8' NULL DEFAULT NULL COMMENT '联系方式',
                                                      `created_at` DATETIME NOT NULL COMMENT '创建时间',
                                                      PRIMARY KEY (`id`),
                                                      CONSTRAINT `user_feedback_ibfk_1`
@@ -467,6 +468,7 @@ CREATE TABLE IF NOT EXISTS `spm`.`admin` (
                                                      ON DELETE NO ACTION
                                                      ON UPDATE NO ACTION)
     ENGINE = InnoDB
+    DEFAULT CHARACTER SET = utf8
     COMMENT = '是否为管理员';
 
 
@@ -497,6 +499,7 @@ CREATE TABLE IF NOT EXISTS `spm`.`verification` (
                                                             ON DELETE NO ACTION
                                                             ON UPDATE NO ACTION)
     ENGINE = InnoDB
+    DEFAULT CHARACTER SET = utf8
     COMMENT = '验证表单';
 
 CREATE INDEX `fk_reviewer_id_idx` ON `spm`.`verification` (`reviewer_id` ASC, `user_id` ASC) VISIBLE;
