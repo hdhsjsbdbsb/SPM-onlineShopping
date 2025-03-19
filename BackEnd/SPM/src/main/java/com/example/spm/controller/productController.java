@@ -26,7 +26,7 @@ public class productController {
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int limit) {
 
-        List<Product> products = productservice.getProducts(keyword, page-1, limit);
+        List<Product> products = productservice.getProducts(keyword, page<=0? 1:page, limit);
         long total = productservice.getTotalCount(keyword);
 
         Map<String, Object> data = Map.of(
